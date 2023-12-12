@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PMDM_P5_Bookshelf</string>
+    <string name="bookshelf">Bookshelf</string>
+    <string name="loading">Cargando...</string>
+    <string name="retry">Volver a intentar</string>
+    <string name="loading_failed">Fallo de lectura</string>
+
+    <string name="book_title">%s</string>
 </resources>
