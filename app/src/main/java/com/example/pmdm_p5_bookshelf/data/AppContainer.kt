@@ -11,7 +11,7 @@ interface AppContainer {
 }
 
 class DefaultAppContainer : AppContainer {
-    private val BASE_URL = "https://android-kotlin-fun-mars-server.appspot.com/"
+    private val BASE_URL = "https://android-kotlin-fun-mars-server.appspot.com/"  // TODO CAMBIAR DIRECCIÓN URL
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
