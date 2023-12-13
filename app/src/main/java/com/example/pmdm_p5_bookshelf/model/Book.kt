@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Book(
     val title: String,
-    @SerialName("img_src") val imgSrc: String
+// TODO COMPLETAR CLASE DE BOOK
 )
