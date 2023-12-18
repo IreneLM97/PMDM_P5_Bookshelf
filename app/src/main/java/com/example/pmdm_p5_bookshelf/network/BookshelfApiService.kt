@@ -1,6 +1,5 @@
 package com.example.pmdm_p5_bookshelf.network
 
-import com.example.pmdm_p5_bookshelf.model.Book
 import com.example.pmdm_p5_bookshelf.model.BooksList
 import retrofit2.Response
 import retrofit2.http.GET

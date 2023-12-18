@@ -1,6 +1,7 @@
 package com.example.pmdm_p5_bookshelf
 
 import android.app.Application
+import android.util.Log
 import com.example.pmdm_p5_bookshelf.data.AppContainer
 import com.example.pmdm_p5_bookshelf.data.DefaultAppContainer
 

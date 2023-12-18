@@ -1,5 +1,6 @@
 package com.example.pmdm_p5_bookshelf.ui.screens
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,6 +13,7 @@ import com.example.pmdm_p5_bookshelf.BookshelfApplication
 import com.example.pmdm_p5_bookshelf.data.BookshelfRepository
 import com.example.pmdm_p5_bookshelf.model.Book
 import kotlinx.coroutines.launch
+import retrofit2.http.Query
 
 sealed interface BookshelfUiState {
     data class Success(val books: List<Book>) : BookshelfUiState
@@ -30,7 +32,7 @@ class BookshelfViewModel(
         getBooks()
     }
 
-    fun getBooks(query: String = "maths") {
+    fun getBooks(@Query("q") query: String = "maths") {
         if(query.isEmpty()) return
         viewModelScope.launch {
             bookshelfUiState = BookshelfUiState.Loading
