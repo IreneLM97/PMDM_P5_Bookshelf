@@ -172,7 +172,7 @@ fun BooksListScreenPreview() {
         val mockData = List(10) {
             Book(
                 volumeInfo = VolumeInfo(
-                    title = "Prueba",
+                    title = "",
                     imageLinks = Thumbnails (
                         thumbnail = ""
                     )
