@@ -12,8 +12,6 @@ import com.example.pmdm_p5_bookshelf.BookshelfApplication
 import com.example.pmdm_p5_bookshelf.data.BookshelfRepository
 import com.example.pmdm_p5_bookshelf.model.Book
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
 
 sealed interface BookshelfUiState {
     data class Success(val books: List<Book>) : BookshelfUiState
@@ -32,16 +30,14 @@ class BookshelfViewModel(
         getBooks()
     }
 
-    fun getBooks() {
+    fun getBooks(query: String = "maths") {
+        if(query.isEmpty()) return
         viewModelScope.launch {
             bookshelfUiState = BookshelfUiState.Loading
-            bookshelfUiState = try {
-                BookshelfUiState.Success(bookshelfRepository.getBooks())
-            } catch (e: IOException) {
-                BookshelfUiState.Error
-            } catch (e: HttpException) {
-                BookshelfUiState.Error
-            }
+            val result = bookshelfRepository.getBooks(query)
+            bookshelfUiState = result?.let {
+                BookshelfUiState.Success(it)
+            } ?: BookshelfUiState.Error
         }
     }
 

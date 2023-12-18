@@ -7,7 +7,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
 class DefaultAppContainer : AppContainer {
-    private val BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=maths"
+    private val BASE_URL = "https://www.googleapis.com/books/v1/"
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))

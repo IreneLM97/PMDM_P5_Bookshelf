@@ -31,6 +31,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.pmdm_p5_bookshelf.R
 import com.example.pmdm_p5_bookshelf.model.Book
+import com.example.pmdm_p5_bookshelf.model.Thumbnails
+import com.example.pmdm_p5_bookshelf.model.VolumeInfo
 import com.example.pmdm_p5_bookshelf.ui.theme.PMDM_P5_BookshelfTheme
 
 @Composable
@@ -98,7 +100,7 @@ fun BookCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.book_title, book.title),
+                text = stringResource(R.string.book_title, book.volumeInfo.title),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(dimensionResource(R.dimen.padding_medium)),
@@ -109,7 +111,7 @@ fun BookCard(
             AsyncImage(
                 modifier = Modifier.fillMaxWidth(),
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(book.imgSrc)
+                    .data(book.volumeInfo.imageLinks?.httpsThumbnail)
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
@@ -169,8 +171,12 @@ fun BooksListScreenPreview() {
     PMDM_P5_BookshelfTheme {
         val mockData = List(10) {
             Book(
-                "Prueba",
-                imgSrc = ""
+                volumeInfo = VolumeInfo(
+                    title = "Prueba",
+                    imageLinks = Thumbnails (
+                        thumbnail = ""
+                    )
+                )
             )
         }
         BooksListScreen(mockData, Modifier.fillMaxSize())

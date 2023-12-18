@@ -5,6 +5,19 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Book(
-    val title: String,
-// TODO COMPLETAR CLASE DE BOOK
+    @SerialName("volumeInfo") val volumeInfo: VolumeInfo
 )
+
+@Serializable
+data class VolumeInfo(
+    @SerialName("title") val title: String,
+    @SerialName("imageLinks") val imageLinks: Thumbnails?
+)
+
+@Serializable
+data class Thumbnails(
+    @SerialName("thumbnail") val thumbnail: String
+) {
+    val httpsThumbnail: String
+        get() = thumbnail.replace("http", "https")
+}
