@@ -6,4 +6,8 @@
     <string name="loading_failed">Fallo de lectura</string>
 
     <string name="book_title">%s</string>
+    <string name="book_authors">Authors: %s</string>
+    <string name="book_date">Published date: %s</string>
+
+    <string name="expand_button_content_description">Ver más sobre el libro</string>
 </resources>

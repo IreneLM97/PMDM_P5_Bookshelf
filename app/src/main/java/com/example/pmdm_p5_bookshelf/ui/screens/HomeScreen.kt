@@ -11,11 +11,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -69,7 +78,6 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
     )
 }
 
-
 @Composable
 fun ErrorScreen(
     retryAction: () -> Unit,
@@ -92,6 +100,9 @@ fun BookCard(
     book: Book,
     modifier: Modifier = Modifier
 ) {
+    // Variable que controla el estado de expansión/cierre de la información del libro
+    var expanded by remember { mutableStateOf(false) }
+
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(8.dp)
@@ -108,6 +119,20 @@ fun BookCard(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start
             )
+
+            // Muestra botón de expansión/contracción
+            BookItemButton(
+                expanded = expanded,
+                onClick = {
+                    expanded = !expanded
+                },
+            )
+
+            // Si el libro está expandido, se muestra su información expandida
+            if (expanded) {
+                BookInfo(book = book)
+            }
+
             AsyncImage(
                 modifier = Modifier.fillMaxWidth(),
                 model = ImageRequest.Builder(context = LocalContext.current)
@@ -120,6 +145,58 @@ fun BookCard(
                 placeholder = painterResource(id = R.drawable.loading_img)
             )
         }
+    }
+}
+
+@Composable
+fun BookInfo(
+    book: Book,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = stringResource(
+            R.string.book_authors,
+            book.volumeInfo.allAuthors
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = dimensionResource(R.dimen.padding_medium))
+            .padding(bottom = dimensionResource(R.dimen.padding_small)),
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Start
+    )
+    Text(
+        text = stringResource(
+            R.string.book_date,
+            book.volumeInfo.published
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = dimensionResource(R.dimen.padding_medium))
+            .padding(bottom = dimensionResource(R.dimen.padding_small)),
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Start
+    )
+}
+
+@Composable
+private fun BookItemButton(
+    expanded: Boolean,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier
+            .padding(top = dimensionResource(id = R.dimen.padding_medium))
+    ) {
+        // Muestra icono de flecha
+        Icon(
+            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+            contentDescription = stringResource(R.string.expand_button_content_description),
+            tint = MaterialTheme.colorScheme.secondary
+        )
     }
 }
 
@@ -139,7 +216,7 @@ private fun BooksListScreen(
         ) { book ->
             BookCard(
                 book = book,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
@@ -172,10 +249,10 @@ fun BooksListScreenPreview() {
         val mockData = List(10) {
             Book(
                 volumeInfo = VolumeInfo(
-                    title = "",
-                    imageLinks = Thumbnails (
-                        thumbnail = ""
-                    )
+                    title = "Book",
+                    authors = listOf( "Juan", "Pedro" ),
+                    publishedDate = "10/12/2010",
+                    imageLinks = Thumbnails (thumbnail = "")
                 )
             )
         }

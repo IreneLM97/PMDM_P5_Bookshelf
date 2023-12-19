@@ -83,6 +83,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:${rootProject.extra["retrofit2_version"]}")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("androidx.compose.material:material-icons-extended")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }

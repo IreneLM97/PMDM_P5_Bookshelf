@@ -18,6 +18,7 @@ sealed interface BookshelfUiState {
     data class Success(val books: List<Book>) : BookshelfUiState
     data object Error : BookshelfUiState
     data object Loading : BookshelfUiState
+
 }
 
 class BookshelfViewModel(
