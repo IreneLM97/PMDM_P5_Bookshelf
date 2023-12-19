@@ -162,7 +162,7 @@ fun LazyGridScreen(
                     false
                 }
                 .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp, top = 8.dp)
+                .padding(start = 8.dp, end = 15.dp, top = 8.dp)
         )
         if (books.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

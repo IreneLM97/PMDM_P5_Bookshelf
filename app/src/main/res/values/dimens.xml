@@ -18,4 +18,5 @@
 <resources>
     <dimen name="padding_small">10dp</dimen>
     <dimen name="padding_medium">16dp</dimen>
+    <dimen name="padding_big">25dp</dimen>
 </resources>

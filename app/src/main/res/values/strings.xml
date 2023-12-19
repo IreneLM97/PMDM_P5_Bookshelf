@@ -8,6 +8,7 @@
     <string name="book_title">%s</string>
     <string name="book_authors">Authors: %s</string>
     <string name="book_date">Published date: %s</string>
+    <string name="book_summary">Nombre: %1$s \nAutores: %2$s \nFecha publicación: %3$s</string>
 
     <string name="expand_button_content_description">Ver más sobre el libro</string>
     <string name="search_label">¿Qué quieres buscar?</string>
@@ -16,4 +17,6 @@
     <string name="refresh">Refrescar</string>
     <string name="imagen_del_libro">Imagen del libro</string>
     <string name="back_button">Icono de volver atrás</string>
+    <string name="send_button">Compartir con otra aplicación</string>
+    <string name="send_book">Enviar información del libro</string>
 </resources>
