@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -130,7 +129,7 @@ fun BookDetails(
                 contentDescription = book.volumeInfo.title,
                 contentScale = ContentScale.FillWidth,
                 error = painterResource(id = R.drawable.ic_broken_image),
-                placeholder = painterResource(id = R.drawable.loading_img),
+                placeholder = painterResource(id = R.drawable.ic_loading_img),
                 model = ImageRequest.Builder(context = LocalContext.current)
                     .data(book.volumeInfo.imageLinks?.httpsThumbnail)
                     .crossfade(true)

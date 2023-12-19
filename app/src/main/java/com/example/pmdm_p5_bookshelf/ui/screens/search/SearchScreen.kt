@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -112,13 +113,16 @@ fun ErrorScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_broken_image),
+                painter = painterResource(id = R.drawable.ic_fail_conection),
                 contentDescription = stringResource(R.string.connection_error)
             )
-            IconButton(onClick = retryAction) {
+            IconButton(
+                onClick = retryAction
+            ) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
-                    contentDescription = stringResource(R.string.refresh)
+                    contentDescription = stringResource(R.string.refresh),
+                    modifier = Modifier.size(48.dp)
                 )
             }
         }
@@ -204,7 +208,7 @@ fun BookCard(
         AsyncImage(
             modifier = Modifier.fillMaxWidth(),
             error = painterResource(id = R.drawable.ic_broken_image),
-            placeholder = painterResource(id = R.drawable.loading_img),
+            placeholder = painterResource(id = R.drawable.ic_loading_img),
             contentDescription = stringResource(R.string.imagen_del_libro),
             contentScale = ContentScale.FillBounds,
             model = ImageRequest.Builder(context = LocalContext.current)
