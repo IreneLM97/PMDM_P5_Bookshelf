@@ -46,16 +46,16 @@ import com.example.pmdm_p5_bookshelf.ui.theme.PMDM_P5_BookshelfTheme
 
 @Composable
 fun HomeScreen(
-    bookshelfUiState: BookshelfUiState,
+    homeUiState: HomeUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    when (bookshelfUiState) {
-        is BookshelfUiState.Loading -> LoadingScreen(modifier.size(200.dp))
-        is BookshelfUiState.Success ->
+    when (homeUiState) {
+        is HomeUiState.Loading -> LoadingScreen(modifier.size(200.dp))
+        is HomeUiState.Success ->
             BooksListScreen(
-                books = bookshelfUiState.books,
+                books = homeUiState.books,
                 modifier = modifier
                     .padding(
                         start = dimensionResource(R.dimen.padding_medium),
@@ -64,6 +64,7 @@ fun HomeScreen(
                     ),
                 contentPadding = contentPadding
             )
+
         else -> ErrorScreen(retryAction, modifier)
     }
 }

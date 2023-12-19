@@ -14,18 +14,17 @@ import com.example.pmdm_p5_bookshelf.model.Book
 import kotlinx.coroutines.launch
 import retrofit2.http.Query
 
-sealed interface BookshelfUiState {
-    data class Success(val books: List<Book>) : BookshelfUiState
-    data object Error : BookshelfUiState
-    data object Loading : BookshelfUiState
-
+sealed interface HomeUiState {
+    data class Success(val books: List<Book>) : HomeUiState
+    data object Error : HomeUiState
+    data object Loading : HomeUiState
 }
 
-class BookshelfViewModel(
+class HomeViewModel(
     private val bookshelfRepository: BookshelfRepository
 ) : ViewModel() {
 
-    var bookshelfUiState: BookshelfUiState by mutableStateOf(BookshelfUiState.Loading)
+    var homeUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
 
     init {
@@ -35,11 +34,11 @@ class BookshelfViewModel(
     fun getBooks(@Query("q") query: String = "maths") {
         if(query.isEmpty()) return
         viewModelScope.launch {
-            bookshelfUiState = BookshelfUiState.Loading
+            homeUiState = HomeUiState.Loading
             val result = bookshelfRepository.getBooks(query)
-            bookshelfUiState = result?.let {
-                BookshelfUiState.Success(it)
-            } ?: BookshelfUiState.Error
+            homeUiState = result?.let {
+                HomeUiState.Success(it)
+            } ?: HomeUiState.Error
         }
     }
 
@@ -49,7 +48,7 @@ class BookshelfViewModel(
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as BookshelfApplication)
                 val bookshelfRepository = application.container.bookshelfRepository
-                BookshelfViewModel(bookshelfRepository = bookshelfRepository)
+                HomeViewModel(bookshelfRepository = bookshelfRepository)
             }
         }
     }

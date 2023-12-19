@@ -10,4 +10,9 @@
     <string name="book_date">Published date: %s</string>
 
     <string name="expand_button_content_description">Ver más sobre el libro</string>
+    <string name="search_label">¿Qué quieres buscar?</string>
+    <string name="no_results">No se han encontrado resultados.</string>
+    <string name="connection_error">Error de conexión</string>
+    <string name="refresh">Refrescar</string>
+    <string name="imagen_del_libro">Imagen del libro</string>
 </resources>
