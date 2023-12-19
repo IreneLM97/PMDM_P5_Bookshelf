@@ -53,6 +53,12 @@ import com.example.pmdm_p5_bookshelf.model.Book
 import com.example.pmdm_p5_bookshelf.ui.BookshelfViewModel
 import com.example.pmdm_p5_bookshelf.ui.theme.PMDM_P5_BookshelfTheme
 
+/**
+ * Muestra la pantalla de búsqueda que permite al usuario buscar libros y ver los resultados.
+ *
+ * @param viewModel ViewModel que maneja la lógica de la pantalla de búsqueda de libros.
+ * @param onBookClick Función lambda para manejar la acción de hacer click en un libro.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
@@ -89,6 +95,9 @@ fun SearchScreen(
     }
 }
 
+/**
+ * Muestra una pantalla de carga con un indicador de progreso mientras se espera la carga de datos.
+ */
 @Composable
 fun LoadingScreen() {
     Box(
@@ -99,6 +108,11 @@ fun LoadingScreen() {
     }
 }
 
+/**
+ * Muestra una pantalla de error con la opción de volver a intentarlo.
+ *
+ * @param retryAction Acción a realizar al hacer click en el botón de reintentar.
+ */
 @Composable
 fun ErrorScreen(
     retryAction: () -> Unit = {}
@@ -112,10 +126,12 @@ fun ErrorScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Imagen de sin conexión
             Image(
                 painter = painterResource(id = R.drawable.ic_fail_conection),
                 contentDescription = stringResource(R.string.connection_error)
             )
+            // Icono de reintentar
             IconButton(
                 onClick = retryAction
             ) {
@@ -129,6 +145,14 @@ fun ErrorScreen(
     }
 }
 
+/**
+ * Muestra una pantalla con una cuadrícula perezosa que contiene una lista de libros.
+ *
+ * @param books Lista de libros a mostrar en la cuadrícula.
+ * @param onBooksSearch Función lambda para realizar una búsqueda de libros.
+ * @param onBookClick Función lambda para manejar el click en un libro.
+ * @param modifier Modificador para personalizar la apariencia.
+ */
 @Composable
 fun LazyGridScreen(
     books: List<Book>,
@@ -137,10 +161,15 @@ fun LazyGridScreen(
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
+
+    // Estado para el texto de búsqueda
     var query by rememberSaveable { mutableStateOf("") }
+
+    // Columna principal que contiene los elementos de la pantalla
     Column(
         modifier = modifier
     ) {
+        // Campo de texto para ingresar la consulta de búsqueda
         OutlinedTextField(
             value = query,
             onValueChange = { query = it },
@@ -152,33 +181,44 @@ fun LazyGridScreen(
                 imeAction = ImeAction.Search
             ),
             keyboardActions = KeyboardActions(
+                // Maneja evento al pulsar el icono Search del teclado
                 onSearch = {
-                    focusManager.clearFocus()
-                    onBooksSearch(query)
+                    focusManager.clearFocus() // Oculta el teclado
+                    onBooksSearch(query) // Realiza la búsqueda con la consulta ingresada
                 }
             ),
             modifier = Modifier
                 .onKeyEvent { e ->
+                    // Maneja el evento al presionar la tecla "Enter" en el teclado
                     if (e.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-                        focusManager.clearFocus()
-                        onBooksSearch(query)
+                        focusManager.clearFocus() // Oculta el teclado
+                        onBooksSearch(query) // Realiza la búsqueda con la consulta ingresada
                     }
                     false
                 }
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 15.dp, top = 8.dp)
         )
+
+        // Verifica si la lista de libros está vacía
         if (books.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            // Muestra un mensaje cuando no hay resultados de búsqueda
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
                 Text(text = stringResource(R.string.no_results))
             }
         } else {
+            // Muestra la cuadrícula de libros cuando hay resultados de búsqueda
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(150.dp),
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(4.dp)
             ) {
-                items(items = books) { book ->
+                items(
+                    items = books
+                ) { book ->
                     BookCard(
                         book = book,
                         onBookClick = onBookClick
@@ -189,6 +229,13 @@ fun LazyGridScreen(
     }
 }
 
+/**
+ * Muestra una tarjeta que representa un libro del resultado de la búsqueda.
+ *
+ * @param book Información del libro a mostrar en la tarjeta.
+ * @param onBookClick Función lambda para manejar el click en el libro.
+ * @param modifier Modificador para personalizar la apariencia.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookCard(
@@ -196,6 +243,7 @@ fun BookCard(
     onBookClick: (Book) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Tarjeta que representa un libro
     Card(
         onClick = {
             onBookClick(book)
@@ -205,11 +253,12 @@ fun BookCard(
             .fillMaxWidth()
             .aspectRatio(0.7f),
     ) {
+        // Imagen asíncrona del libro dentro de la tarjeta
         AsyncImage(
             modifier = Modifier.fillMaxWidth(),
             error = painterResource(id = R.drawable.ic_broken_image),
             placeholder = painterResource(id = R.drawable.ic_loading_img),
-            contentDescription = stringResource(R.string.imagen_del_libro),
+            contentDescription = stringResource(R.string.book_image),
             contentScale = ContentScale.FillBounds,
             model = ImageRequest.Builder(context = LocalContext.current)
                 .data(book.volumeInfo.imageLinks?.httpsThumbnail)
@@ -219,6 +268,9 @@ fun BookCard(
     }
 }
 
+/**
+ * Muestra una vista previa de la pantalla de carga.
+ */
 @Preview(showBackground = true)
 @Composable
 fun LoadingScreenPreview() {
@@ -227,6 +279,9 @@ fun LoadingScreenPreview() {
     }
 }
 
+/**
+ * Muestra una vista previa de la pantalla de error.
+ */
 @Preview(showBackground = true)
 @Composable
 fun ErrorScreenPreview() {

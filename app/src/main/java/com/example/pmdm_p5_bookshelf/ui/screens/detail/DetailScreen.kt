@@ -38,19 +38,24 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.pmdm_p5_bookshelf.R
 import com.example.pmdm_p5_bookshelf.model.Book
-import com.example.pmdm_p5_bookshelf.model.Thumbnails
-import com.example.pmdm_p5_bookshelf.model.VolumeInfo
 import com.example.pmdm_p5_bookshelf.ui.BookshelfViewModel
 
+/**
+ * Muestra la pantalla de detalle que presenta la información de un libro seleccionado.
+ *
+ * @param viewModel ViewModel que maneja la lógica de la pantalla de detalles del libro.
+ * @param onBackPressed Función lambda para manejar el evento de retroceder a la pantalla anterior.
+ * @param onSendButtonClicked Función lambda para manejar el evento de enviar información del libro a otra aplicación.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
@@ -58,6 +63,7 @@ fun DetailScreen(
     onBackPressed: () -> Unit,
     onSendButtonClicked: (String) -> Unit
 ) {
+    // Estado actual de la interfaz de usuario para los detalles del libro desde el ViewModel
     val detailUiState by viewModel.detailUiState.collectAsState()
 
     // Diseño de la estructura básica de la pantalla
@@ -86,6 +92,7 @@ fun DetailScreen(
             )
         }
     ) { innerPadding ->
+        // Diseño de la pantalla de detalles
         detailUiState.currentBook?.let {
             BookDetails(
                 book = it,
@@ -96,6 +103,13 @@ fun DetailScreen(
     }
 }
 
+/**
+ * Muestra los detalles de un libro en la interfaz de usuario.
+ *
+ * @param book Información del libro a mostrar.
+ * @param onSendButtonClicked Función lambda para manejar el evento de enviar información del libro a otra aplicación.
+ * @param modifier Modificador para personalizar la apariencia.
+ */
 @Composable
 fun BookDetails(
     book: Book,
@@ -110,6 +124,7 @@ fun BookDetails(
         book.volumeInfo.bookPublished
     )
 
+    // Estructura para mostrar los detalles del libro
     Card(
         modifier = modifier
             .fillMaxSize()
@@ -121,111 +136,145 @@ fun BookDetails(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small)),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            // Sección de la imagen del libro
             Spacer(Modifier.height(10.dp))
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(50.dp)),
-                contentDescription = book.volumeInfo.title,
-                contentScale = ContentScale.FillWidth,
-                error = painterResource(id = R.drawable.ic_broken_image),
-                placeholder = painterResource(id = R.drawable.ic_loading_img),
-                model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(book.volumeInfo.imageLinks?.httpsThumbnail)
-                    .crossfade(true)
-                    .build()
-            )
+            ImageSection(book = book)
 
+            // Sección del título del libro
             Spacer(modifier = Modifier.height(24.dp))
-            Text(
+            TextSection(
                 text = book.volumeInfo.title,
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.my_dark_gray)
                 ),
-                fontStyle = FontStyle.Italic,
-                modifier = Modifier
-                    .padding(horizontal = dimensionResource(R.dimen.padding_small))
+                fontStyle = FontStyle.Italic
             )
 
+            // Sección de los autores del libro
             Spacer(modifier = Modifier.height(24.dp))
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopStart
-            ) {
-                Text(
-                    text = stringResource(
-                        id = R.string.book_authors,
-                        book.volumeInfo.bookAuthors
-                    ),
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontSize = 20.sp,
-                        color = colorResource(id = R.color.my_dark_gray)
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = dimensionResource(R.dimen.padding_small))
+            TextSection(
+                text = stringResource(
+                    id = R.string.book_authors,
+                    book.volumeInfo.bookAuthors
+                ),
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontSize = 20.sp,
+                    color = colorResource(id = R.color.my_dark_gray)
                 )
-            }
+            )
 
+            // Sección de la fecha de publicación del libro
             Spacer(modifier = Modifier.height(24.dp))
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopStart
-            ) {
-                Text(
-                    text = stringResource(
-                        id = R.string.book_published,
-                        book.volumeInfo.bookPublished
-                    ),
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontSize = 20.sp,
-                        color = colorResource(id = R.color.my_dark_gray)
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = dimensionResource(R.dimen.padding_small))
+            TextSection(
+                text = stringResource(
+                    id = R.string.book_published,
+                    book.volumeInfo.bookPublished
+                ),
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontSize = 20.sp,
+                    color = colorResource(id = R.color.my_dark_gray)
                 )
-            }
+            )
 
+            // Linea horizontal
             Spacer(modifier = Modifier.height(24.dp))
             Line()
 
+            // Sección de la descripción del libro
             Spacer(modifier = Modifier.height(24.dp))
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopStart
-            ) {
-                Text(
-                    text = stringResource(
-                        id = R.string.book_description,
-                        book.volumeInfo.bookDescription
-                    ),
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontSize = 20.sp,
-                        color = colorResource(id = R.color.my_dark_gray)
-                    ),
-                    fontStyle = FontStyle.Italic,
-                    modifier = Modifier
-                        .padding(horizontal = dimensionResource(R.dimen.padding_small))
-                )
-            }
+            TextSection(
+                text = stringResource(
+                    id = R.string.book_description,
+                    book.volumeInfo.bookDescription
+                ),
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontSize = 20.sp,
+                    color = colorResource(id = R.color.my_dark_gray)
+                ),
+                fontStyle = FontStyle.Italic
+            )
 
             // Botón para enviar a otra aplicación
-            Row(
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.padding_big))
-            ) {
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    onClick = {
-                        onSendButtonClicked(bookSummary)
-                    },
-                    colors = ButtonDefaults.buttonColors(colorResource(id = R.color.my_dark_blue)),
-                ) {
-                    Text(stringResource(R.string.send_button))
-                }
-            }
+            SendButton(
+                onSendButtonClicked = onSendButtonClicked,
+                bookSummary = bookSummary
+            )
+        }
+    }
+}
+
+/**
+ * Muestra la sección de la imagen del libro.
+ *
+ * @param book Información del libro que contiene la URL de la imagen.
+ */
+@Composable
+private fun ImageSection(
+    book: Book
+) {
+    AsyncImage(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(50.dp)),
+        contentDescription = stringResource(id = R.string.book_image),
+        contentScale = ContentScale.FillWidth,
+        error = painterResource(id = R.drawable.ic_broken_image),
+        placeholder = painterResource(id = R.drawable.ic_loading_img),
+        model = ImageRequest.Builder(context = LocalContext.current)
+            .data(book.volumeInfo.imageLinks?.httpsThumbnail)
+            .crossfade(true)
+            .build()
+    )
+}
+
+/**
+ * Muestra una sección de texto con estilo y formato opcionales.
+ *
+ * @param text Texto a mostrar en la sección.
+ * @param style Estilo del texto a aplicar.
+ * @param fontStyle Estilo de fuente adicional, si es necesario.
+ */
+@Composable
+private fun TextSection(
+    text: String,
+    style: TextStyle,
+    fontStyle: FontStyle? = null
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopStart
+    ) {
+        Text(
+            text = text,
+            style = style,
+            fontStyle = fontStyle,
+            modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_small))
+        )
+    }
+}
+
+/**
+ * Muestra un botón para enviar información a otra aplicación.
+ *
+ * @param onSendButtonClicked Función lambda que maneja el evento de click del botón.
+ * @param bookSummary Resumen de información del libro para enviar.
+ */
+@Composable
+private fun SendButton(
+    onSendButtonClicked: (String) -> Unit,
+    bookSummary: String
+) {
+    Row(
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_big))
+    ) {
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onSendButtonClicked(bookSummary) },
+            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.my_dark_blue)),
+        ) {
+            Text(stringResource(R.string.send_button))
         }
     }
 }
@@ -240,21 +289,5 @@ private fun Line() {
             .fillMaxWidth()
             .height(1.dp)
             .background(colorResource(R.color.my_dark_gray))
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BookDetailsPreview() {
-    BookDetails(
-        book = Book(
-            volumeInfo = VolumeInfo(
-                title = "Book",
-                imageLinks = Thumbnails(
-                    thumbnail = "http://books.google.com/books/content?id=GRbPMeXsKGoC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-                )
-            )
-        ),
-        onSendButtonClicked = {}
     )
 }

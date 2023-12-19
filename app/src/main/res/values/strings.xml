@@ -2,6 +2,7 @@
     <string name="app_name">PMDM_P5_Bookshelf</string>
     <string name="bookshelf">Google Bookshelf</string>
 
+    <string name="book_image">Imagen del libro</string>
     <string name="book_authors">Authors: %s</string>
     <string name="book_published">Published date: %s</string>
     <string name="book_description">%s</string>
@@ -11,7 +12,6 @@
     <string name="no_results">No se han encontrado resultados.</string>
     <string name="connection_error">Error de conexión</string>
     <string name="refresh">Refrescar</string>
-    <string name="imagen_del_libro">Imagen del libro</string>
     <string name="back_button">Icono de volver atrás</string>
     <string name="send_button">Compartir con otra aplicación</string>
     <string name="send_book">Enviar información del libro</string>

@@ -23,6 +23,12 @@ enum class BookshelfAppScreen {
     DetailScreen
 }
 
+/**
+ * Función que representa la estructura principal de la aplicación.
+ *
+ * @param viewModel ViewModel que gestiona el estado de la aplicación.
+ * @param navController Controlador de navegación para gestionar la navegación entre pantallas.
+ */
 @Composable
 fun BookshelfApp(
     viewModel: BookshelfViewModel = viewModel(factory = BookshelfViewModel.Factory),
@@ -34,27 +40,27 @@ fun BookshelfApp(
         startDestination = BookshelfAppScreen.SearchScreen.name,
         modifier = Modifier.fillMaxSize()
     ) {
-        // Estructura de la pantalla que muestra la lista de categorías (pantalla principal)
+        // Pantalla que muestra el filtro de búsqueda y la lista de libros (pantalla principal)
         composable(route = BookshelfAppScreen.SearchScreen.name) {
             SearchScreen(
                 viewModel = viewModel,
                 onBookClick = {
-                    viewModel.updateCurrentBook(it)
-                    navController.navigate(BookshelfAppScreen.DetailScreen.name)
+                    viewModel.updateCurrentBook(it)  // Actualizamos libro seleccionado
+                    navController.navigate(BookshelfAppScreen.DetailScreen.name)  // Navegamos a la pantalla de detalle
                 }
             )
         }
 
-        // Estructura de pantalla que muestra el detalle del libro
+        // Pantalla que muestra el detalle de un libro específico
         composable(route = BookshelfAppScreen.DetailScreen.name) {
             val context = LocalContext.current
             DetailScreen(
                 viewModel = viewModel,
                 onBackPressed = {
-                    navController.popBackStack()  // retroceder en la pila de navegación
+                    navController.popBackStack()  // Retrocedemos en la pila de navegación
                 },
                 onSendButtonClicked = { summary: String ->
-                    sharePlace(context, summary = summary)  // compartimos la información
+                    sharePlace(context, summary = summary)  // Compartimos la información
                 }
             )
         }
@@ -62,10 +68,10 @@ fun BookshelfApp(
 }
 
 /**
- * Función que permite compartir la información de un lugar a otra aplicación.
+ * Función que permite compartir la información de un libro a otra aplicación.
  *
- * @param context contexto de la aplicación
- * @param summary resumen del lugar que se quiere compartir
+ * @param context Contexto de la aplicación.
+ * @param summary Resumen del libro que se quiere compartir.
  */
 private fun sharePlace(
     context: Context,
@@ -73,8 +79,8 @@ private fun sharePlace(
 ) {
     // Crear un Intent de acción SEND para compartir
     val intent = Intent(Intent.ACTION_SEND).apply {
-        type = "text/plain"  // contenido de texto plano
-        putExtra(Intent.EXTRA_TEXT, summary)  // agregamos resumen
+        type = "text/plain"  // Contenido de texto plano
+        putExtra(Intent.EXTRA_TEXT, summary)  // Agregamos resumen
     }
 
     // Iniciar una actividad para elegir la aplicación de destino a la que se quiere compartir
