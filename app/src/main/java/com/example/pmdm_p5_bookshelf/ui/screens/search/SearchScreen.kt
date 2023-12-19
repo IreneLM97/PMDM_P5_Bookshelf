@@ -199,18 +199,18 @@ fun BookCard(
         modifier = modifier
             .padding(4.dp)
             .fillMaxWidth()
-            .aspectRatio(1f),
+            .aspectRatio(0.7f),
     ) {
         AsyncImage(
             modifier = Modifier.fillMaxWidth(),
-            model = ImageRequest.Builder(context = LocalContext.current)
-                .data(book.volumeInfo.imageLinks?.httpsThumbnail)
-                .crossfade(true)
-                .build(),
             error = painterResource(id = R.drawable.ic_broken_image),
             placeholder = painterResource(id = R.drawable.loading_img),
             contentDescription = stringResource(R.string.imagen_del_libro),
             contentScale = ContentScale.FillBounds,
+            model = ImageRequest.Builder(context = LocalContext.current)
+                .data(book.volumeInfo.imageLinks?.httpsThumbnail)
+                .crossfade(true)
+                .build()
         )
     }
 }

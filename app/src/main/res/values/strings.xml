@@ -1,16 +1,12 @@
 <resources>
     <string name="app_name">PMDM_P5_Bookshelf</string>
     <string name="bookshelf">Google Bookshelf</string>
-    <string name="loading">Cargando...</string>
-    <string name="retry">Volver a intentar</string>
-    <string name="loading_failed">Fallo de lectura</string>
 
-    <string name="book_title">%s</string>
     <string name="book_authors">Authors: %s</string>
-    <string name="book_date">Published date: %s</string>
+    <string name="book_published">Published date: %s</string>
+    <string name="book_description">%s</string>
     <string name="book_summary">Nombre: %1$s \nAutores: %2$s \nFecha publicación: %3$s</string>
 
-    <string name="expand_button_content_description">Ver más sobre el libro</string>
     <string name="search_label">¿Qué quieres buscar?</string>
     <string name="no_results">No se han encontrado resultados.</string>
     <string name="connection_error">Error de conexión</string>
